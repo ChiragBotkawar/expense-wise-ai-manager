@@ -8,6 +8,7 @@ import { ThemeProvider } from "@/hooks/use-theme";
 import { AppHeader } from "./components/AppHeader";
 import { AppSidebar } from "./components/AppSidebar";
 import { useIsMobile } from "./hooks/use-mobile";
+import { cn } from "@/lib/utils";
 
 import Dashboard from "./pages/Index";
 import Expenses from "./pages/Expenses";
@@ -24,7 +25,7 @@ const queryClient = new QueryClient({
     queries: {
       retry: 2,
       staleTime: 5 * 60 * 1000, // 5 minutes
-      cacheTime: 10 * 60 * 1000, // 10 minutes
+      gcTime: 10 * 60 * 1000, // 10 minutes (replaces cacheTime)
       refetchOnWindowFocus: false,
     },
   },
