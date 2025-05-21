@@ -14,7 +14,7 @@
     --popover: 0 0% 100%;
     --popover-foreground: 224 71.4% 4.1%;
 
-    --primary: 262 83.3% 57.8%;
+    --primary: 27 96% 61%;
     --primary-foreground: 210 20% 98%;
 
     --secondary: 220 14.3% 95.9%;
@@ -23,7 +23,7 @@
     --muted: 220 14.3% 95.9%;
     --muted-foreground: 220 8.9% 46.1%;
 
-    --accent: 262 83.3% 57.8%;
+    --accent: 27 96% 61%;
     --accent-foreground: 210 20% 98%;
 
     --destructive: 0 84.2% 60.2%;
@@ -31,18 +31,18 @@
 
     --border: 220 13% 91%;
     --input: 220 13% 91%;
-    --ring: 262 83.3% 57.8%;
+    --ring: 27 96% 61%;
 
     --radius: 0.5rem;
 
     --sidebar-background: 0 0% 100%;
     --sidebar-foreground: 224 71.4% 4.1%;
-    --sidebar-primary: 262 83.3% 57.8%;
+    --sidebar-primary: 27 96% 61%;
     --sidebar-primary-foreground: 0 0% 98%;
     --sidebar-accent: 220 14.3% 95.9%;
     --sidebar-accent-foreground: 224 71.4% 4.1%;
     --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 262 83.3% 57.8%;
+    --sidebar-ring: 27 96% 61%;
   }
 
   .dark {
@@ -55,7 +55,7 @@
     --popover: 224 71.4% 4.1%;
     --popover-foreground: 210 20% 98%;
 
-    --primary: 263 75% 63%;
+    --primary: 27 96% 61%;
     --primary-foreground: 210 20% 98%;
 
     --secondary: 215 27.9% 16.9%;
@@ -64,7 +64,7 @@
     --muted: 215 27.9% 16.9%;
     --muted-foreground: 217.9 10.6% 64.9%;
 
-    --accent: 263 75% 63%;
+    --accent: 27 96% 61%;
     --accent-foreground: 210 20% 98%;
 
     --destructive: 0 62.8% 30.6%;
@@ -72,16 +72,16 @@
 
     --border: 215 27.9% 16.9%;
     --input: 215 27.9% 16.9%;
-    --ring: 263 75% 63%;
+    --ring: 27 96% 61%;
 
     --sidebar-background: 224 71.4% 4.1%;
     --sidebar-foreground: 210 20% 98%;
-    --sidebar-primary: 263 75% 63%;
+    --sidebar-primary: 27 96% 61%;
     --sidebar-primary-foreground: 0 0% 100%;
     --sidebar-accent: 215 27.9% 16.9%;
     --sidebar-accent-foreground: 210 20% 98%;
     --sidebar-border: 215 27.9% 16.9%;
-    --sidebar-ring: 263 75% 63%;
+    --sidebar-ring: 27 96% 61%;
   }
 }
 
@@ -92,6 +92,7 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Poppins', sans-serif;
   }
 }
 
@@ -106,5 +107,21 @@
 
   .btn-hover {
     @apply hover:scale-105 active:scale-95 transition-all duration-200;
+  }
+  
+  .festival-badge {
+    @apply absolute -top-2 -right-2 bg-red-500 text-white text-xs px-2 py-1 rounded-full animate-pulse;
+  }
+  
+  .rangoli-pattern {
+    @apply relative before:absolute before:inset-0 before:bg-[url('/rangoli-pattern.svg')] before:bg-no-repeat before:bg-center before:opacity-5 before:pointer-events-none;
+  }
+  
+  .indian-wave-divider {
+    @apply w-full overflow-hidden leading-[0] relative h-16;
+  }
+  
+  .indian-wave-divider-inner {
+    @apply fill-current text-primary/10 w-full h-full;
   }
 }

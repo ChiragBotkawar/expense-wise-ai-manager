@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BadgeDollarSign, Coffee, Droplet, ShoppingCart, Home, CheckCircle } from "lucide-react";
+import { BadgeIndianRupee, Coffee, Droplet, ShoppingCart, Home, CheckCircle, Lightbulb, Star, Train } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { 
@@ -25,7 +25,10 @@ const categoryIcons = {
   shopping: ShoppingCart,
   utilities: Droplet,
   housing: Home,
-  income: BadgeDollarSign,
+  income: BadgeIndianRupee,
+  entertainment: Lightbulb,
+  education: Star,
+  transport: Train
 };
 
 type Transaction = {
@@ -35,6 +38,7 @@ type Transaction = {
   category: keyof typeof categoryIcons;
   amount: number;
   isIncome: boolean;
+  upiId?: string;
   suggestedCategory?: {
     category: keyof typeof categoryIcons;
     confidence: number;
@@ -45,10 +49,11 @@ const transactions: Transaction[] = [
   {
     id: "t1",
     date: "2025-05-18",
-    description: "Grocery Store",
+    description: "BigBazaar",
     category: "food",
-    amount: 64.75,
+    amount: 1247.50,
     isIncome: false,
+    upiId: "bigbazaar@ybl",
     suggestedCategory: { category: "food", confidence: 0.92 },
   },
   {
@@ -56,24 +61,25 @@ const transactions: Transaction[] = [
     date: "2025-05-17",
     description: "Monthly Salary",
     category: "income",
-    amount: 2500.00,
+    amount: 85000.00,
     isIncome: true,
   },
   {
     id: "t3",
     date: "2025-05-15",
-    description: "Electric Bill",
+    description: "Adani Electricity",
     category: "utilities",
-    amount: 85.20,
+    amount: 2350.75,
     isIncome: false,
+    upiId: "adani.bill@icici",
     suggestedCategory: { category: "utilities", confidence: 0.87 },
   },
   {
     id: "t4",
     date: "2025-05-14",
-    description: "Department Store",
+    description: "Myntra",
     category: "shopping",
-    amount: 129.99,
+    amount: 3499.99,
     isIncome: false,
     suggestedCategory: { category: "shopping", confidence: 0.78 },
   },
@@ -82,8 +88,26 @@ const transactions: Transaction[] = [
     date: "2025-05-10",
     description: "Rent Payment",
     category: "housing",
-    amount: 1200.00,
+    amount: 32000.00,
     isIncome: false,
+    upiId: "landlord@paytm",
+  },
+  {
+    id: "t6",
+    date: "2025-05-07",
+    description: "BYJU's Classes",
+    category: "education",
+    amount: 4999.00,
+    isIncome: false,
+  },
+  {
+    id: "t7",
+    date: "2025-05-05",
+    description: "Irctc Ticket",
+    category: "transport",
+    amount: 1845.00,
+    isIncome: false,
+    upiId: "irctc@sbi",
   },
 ];
 
@@ -137,12 +161,19 @@ export function TransactionsTable() {
                   className="group hover:bg-muted/50 transition-colors"
                 >
                   <TableCell className="font-medium">
-                    {new Date(transaction.date).toLocaleDateString('en-US', {
+                    {new Date(transaction.date).toLocaleDateString('en-IN', {
                       month: 'short',
                       day: 'numeric'
                     })}
                   </TableCell>
-                  <TableCell>{transaction.description}</TableCell>
+                  <TableCell>
+                    <div className="flex flex-col">
+                      <span>{transaction.description}</span>
+                      {transaction.upiId && (
+                        <span className="text-xs text-muted-foreground">UPI: {transaction.upiId}</span>
+                      )}
+                    </div>
+                  </TableCell>
                   <TableCell>
                     <div className="flex items-center gap-2">
                       <div className="bg-primary/10 p-1 rounded">
@@ -188,7 +219,7 @@ export function TransactionsTable() {
                       ? "text-green-600 dark:text-green-400" 
                       : "text-foreground"
                   )}>
-                    {transaction.isIncome ? "+" : "-"}${transaction.amount.toFixed(2)}
+                    {transaction.isIncome ? "+" : "-"}₹{transaction.amount.toFixed(2)}
                   </TableCell>
                 </TableRow>
               );

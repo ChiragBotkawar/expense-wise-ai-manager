@@ -3,7 +3,7 @@ import { ThemeToggle } from "./ThemeToggle";
 import { UserAvatar } from "./UserAvatar";
 import { NotificationBadge } from "./NotificationBadge";
 import { useState } from "react";
-import { Menu, LogOut, Settings, User } from "lucide-react";
+import { Menu, LogOut, Settings, User, IndianRupee } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { AppSidebar } from "./AppSidebar";
@@ -50,21 +50,26 @@ export function AppHeader({ onLogout }: AppHeaderProps) {
         </Sheet>
       </div>
       
-      <div className="ml-16 md:ml-64 flex-1 flex justify-end items-center gap-4">
+      <div className="ml-auto flex items-center gap-4">
+        <Button variant="outline" size="sm" className="flex items-center gap-1 text-xs font-medium">
+          <IndianRupee className="h-3.5 w-3.5" />
+          <span>Quick Pay</span>
+        </Button>
+        
         <NotificationBadge count={3} />
         <ThemeToggle />
         
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="rounded-full">
-              <UserAvatar name="John Doe" />
+              <UserAvatar name="Raj Sharma" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-56 animate-scale-in">
             <DropdownMenuLabel>
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium">John Doe</p>
-                <p className="text-xs text-muted-foreground">john.doe@example.com</p>
+                <p className="text-sm font-medium">Raj Sharma</p>
+                <p className="text-xs text-muted-foreground">raj.sharma@example.com</p>
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />

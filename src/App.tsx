@@ -18,15 +18,25 @@ import Login from "./pages/Login";
 import NotFound from "./pages/NotFound";
 import { useState, useEffect } from "react";
 
-const queryClient = new QueryClient();
+// Initialize query client with better defaults for Indian network conditions
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: 2,
+      staleTime: 5 * 60 * 1000, // 5 minutes
+      cacheTime: 10 * 60 * 1000, // 10 minutes
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 const App = () => {
   const isMobile = useIsMobile();
   const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
+  const [festivalMode, setFestivalMode] = useState(false);
   
   useEffect(() => {
     // Check if user is authenticated, e.g., by looking for a token
-    // For demo purposes, we'll just simulate this
     const checkAuth = () => {
       // In a real app, you would check for a token in localStorage or similar
       setIsAuthenticated(localStorage.getItem("auth") === "true");
@@ -37,6 +47,13 @@ const App = () => {
     // Just for demo purposes - set authentication after first visit
     if (localStorage.getItem("auth") === null) {
       localStorage.setItem("auth", "false");
+    }
+    
+    // Check for current Indian festivals
+    const currentMonth = new Date().getMonth();
+    // Diwali is typically in October/November (month 9 or 10)
+    if (currentMonth === 9 || currentMonth === 10) {
+      setFestivalMode(true);
     }
   }, []);
   
@@ -56,7 +73,10 @@ const App = () => {
   if (isAuthenticated === null) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-pulse">Loading...</div>
+        <div className="flex flex-col items-center gap-4">
+          <div className="h-12 w-12 rounded-full border-4 border-primary border-t-transparent animate-spin"></div>
+          <p className="text-lg font-medium">Loading FinWise Bharat...</p>
+        </div>
       </div>
     );
   }
@@ -69,7 +89,10 @@ const App = () => {
           <Sonner />
           <BrowserRouter>
             {isAuthenticated ? (
-              <div className="min-h-screen flex flex-col bg-background animate-fade-in">
+              <div className={cn(
+                "min-h-screen flex flex-col bg-background animate-fade-in",
+                festivalMode && "rangoli-pattern"
+              )}>
                 <AppHeader onLogout={handleLogout} />
                 {!isMobile && <AppSidebar />}
                 <main className="flex-1 pt-16 md:ml-16 lg:ml-64 p-4 md:p-6">

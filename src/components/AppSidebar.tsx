@@ -32,7 +32,7 @@ export function AppSidebar() {
     >
       <div className="flex items-center justify-between p-4 border-b border-sidebar-border h-16">
         {isExpanded ? (
-          <h1 className="font-bold text-sidebar-primary text-lg">ExpenseIQ</h1>
+          <h1 className="font-bold text-sidebar-primary text-lg">FinWise Bharat</h1>
         ) : (
           <PieChart className="h-6 w-6 text-sidebar-primary mx-auto" />
         )}
@@ -86,7 +86,7 @@ export function AppSidebar() {
       <div className="p-4 mt-auto border-t border-sidebar-border">
         {isExpanded && (
           <div className="text-xs text-sidebar-foreground/60">
-            © 2025 ExpenseIQ
+            © 2025 FinWise Bharat
           </div>
         )}
       </div>
