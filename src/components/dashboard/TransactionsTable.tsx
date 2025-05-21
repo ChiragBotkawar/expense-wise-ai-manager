@@ -9,8 +9,15 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { BadgeDollarSign, Coffee, Droplet, ShoppingCart, Home } from "lucide-react";
+import { BadgeDollarSign, Coffee, Droplet, ShoppingCart, Home, CheckCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useState } from "react";
+import { 
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 // Transaction category icons mapping
 const categoryIcons = {
@@ -28,6 +35,10 @@ type Transaction = {
   category: keyof typeof categoryIcons;
   amount: number;
   isIncome: boolean;
+  suggestedCategory?: {
+    category: keyof typeof categoryIcons;
+    confidence: number;
+  };
 };
 
 const transactions: Transaction[] = [
@@ -38,6 +49,7 @@ const transactions: Transaction[] = [
     category: "food",
     amount: 64.75,
     isIncome: false,
+    suggestedCategory: { category: "food", confidence: 0.92 },
   },
   {
     id: "t2",
@@ -54,6 +66,7 @@ const transactions: Transaction[] = [
     category: "utilities",
     amount: 85.20,
     isIncome: false,
+    suggestedCategory: { category: "utilities", confidence: 0.87 },
   },
   {
     id: "t4",
@@ -62,6 +75,7 @@ const transactions: Transaction[] = [
     category: "shopping",
     amount: 129.99,
     isIncome: false,
+    suggestedCategory: { category: "shopping", confidence: 0.78 },
   },
   {
     id: "t5",
@@ -74,6 +88,25 @@ const transactions: Transaction[] = [
 ];
 
 export function TransactionsTable() {
+  // Track which category suggestions have been accepted
+  const [acceptedSuggestions, setAcceptedSuggestions] = useState<Record<string, boolean>>({});
+
+  const handleAcceptSuggestion = (transactionId: string, category: keyof typeof categoryIcons) => {
+    setAcceptedSuggestions(prev => ({
+      ...prev,
+      [transactionId]: true
+    }));
+    
+    // In a real app, you would update the transaction's category here
+    console.log(`Updated transaction ${transactionId} to category: ${category}`);
+    
+    // Show toast notification
+    // toast({
+    //   title: "Category updated",
+    //   description: `Transaction has been categorized as ${category}`,
+    // });
+  };
+
   return (
     <Card className="col-span-full">
       <CardHeader className="flex flex-row items-center justify-between">
@@ -96,6 +129,8 @@ export function TransactionsTable() {
           <TableBody>
             {transactions.map((transaction) => {
               const Icon = categoryIcons[transaction.category];
+              const hasSuggestion = transaction.suggestedCategory && !acceptedSuggestions[transaction.id];
+              
               return (
                 <TableRow 
                   key={transaction.id}
@@ -114,6 +149,37 @@ export function TransactionsTable() {
                         <Icon className="h-4 w-4 text-primary" />
                       </div>
                       <span className="capitalize">{transaction.category}</span>
+                      
+                      {/* Category Suggestion Chip */}
+                      {hasSuggestion && (
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <div 
+                                onClick={() => handleAcceptSuggestion(
+                                  transaction.id, 
+                                  transaction.suggestedCategory!.category
+                                )}
+                                className={cn(
+                                  "ml-2 flex items-center gap-1 px-2 py-0.5 rounded-full",
+                                  "bg-primary/20 text-xs cursor-pointer",
+                                  "hover:bg-primary/30 transition-all",
+                                  "animate-fade-in" // Fade-in animation
+                                )}
+                              >
+                                <CheckCircle className="h-3 w-3 text-primary" />
+                                <span>{transaction.suggestedCategory!.category}</span>
+                              </div>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                              <p>
+                                Auto-tagged as {transaction.suggestedCategory!.category} 
+                                ({Math.round(transaction.suggestedCategory!.confidence * 100)}% sure)
+                              </p>
+                            </TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      )}
                     </div>
                   </TableCell>
                   <TableCell className={cn(
