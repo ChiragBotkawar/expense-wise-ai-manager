@@ -8,12 +8,19 @@ interface QuickActionCardProps {
   description: string;
   icon: LucideIcon;
   onClick?: () => void;
+  className?: string;
 }
 
-export function QuickActionCard({ title, description, icon: Icon, onClick }: QuickActionCardProps) {
+export function QuickActionCard({ 
+  title, 
+  description, 
+  icon: Icon, 
+  onClick,
+  className
+}: QuickActionCardProps) {
   return (
     <Card 
-      className="hover-card cursor-pointer card-gradient border-primary/10"
+      className={cn("hover-card cursor-pointer card-gradient border-primary/10", className)}
       onClick={onClick}
     >
       <CardContent className="p-6">
