@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -63,7 +62,7 @@ export default function Settings() {
             <CardContent className="space-y-6">
               <div className="flex flex-col sm:flex-row gap-6 items-center sm:items-start">
                 <div className="relative group">
-                  <UserAvatar name="John Doe" className="w-24 h-24" />
+                  <UserAvatar name="John Doe" />
                   <div className="absolute inset-0 bg-black/60 rounded-full opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">
                     <Button variant="ghost" className="text-white text-xs">
                       Change
