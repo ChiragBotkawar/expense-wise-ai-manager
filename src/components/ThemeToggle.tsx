@@ -1,25 +1,19 @@
 
 import { Moon, Sun } from "lucide-react";
-import { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
+import { useTheme } from "@/hooks/use-theme";
+import { toast } from "sonner";
 
 export function ThemeToggle() {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
-
-  useEffect(() => {
-    const isDark = document.documentElement.classList.contains("dark");
-    setTheme(isDark ? "dark" : "light");
-  }, []);
+  const { theme, setTheme } = useTheme();
 
   function toggleTheme() {
     const newTheme = theme === "light" ? "dark" : "light";
     setTheme(newTheme);
-    
-    if (newTheme === "dark") {
-      document.documentElement.classList.add("dark");
-    } else {
-      document.documentElement.classList.remove("dark");
-    }
+    toast(`Switched to ${newTheme} mode`, {
+      position: "bottom-right",
+      duration: 2000,
+    });
   }
 
   return (
@@ -27,7 +21,7 @@ export function ThemeToggle() {
       variant="ghost" 
       size="icon" 
       onClick={toggleTheme}
-      className="rounded-full"
+      className="rounded-full btn-hover"
       aria-label="Toggle theme"
     >
       {theme === "light" ? (
